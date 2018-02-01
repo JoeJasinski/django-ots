@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load field_tags %}
+{% block content %}
+    <h1>Create Secret</h1>
+    <form action="." method="post">{% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+
+    {% for field in form.visible_fields %}
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field|addcss:"form-control" }}
+            {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+     <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock content %}

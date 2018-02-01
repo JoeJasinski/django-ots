@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>View Secret</h1>
+
+    <div class="card text-white bg-primary mb-3 text-center">
+      <div class="card-header">View Secret</div>
+      <div class="card-body">
+        <h5 class="card-title"><input id="secret-link" class="form-control" value="{{ secret.get_secret_url }}" /></h5>
+        <p class="card-text"><img src="{% url 'view_creds_qr' secret.id %}" alt="qr code"/></p>
+      </div>
+    </div>
+
+{% endblock content %}
+
+{% block js_footer %}
+<script>
+$(document).ready(function() {
+    $("#secret-link").focus(function() { $(this).select(); } );
+});
+</script>
+{% endblock js_footer %}

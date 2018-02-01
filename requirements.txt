@@ -1,0 +1,5 @@
+django==1.11.8
+dj_database_url==0.4.2
+psycopg2==2.7.3.2
+Pillow
+qrcode

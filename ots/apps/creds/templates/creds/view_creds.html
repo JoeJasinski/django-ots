@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<META HTTP-EQUIV="refresh" CONTENT="{{ page_refresh }}">
+{% endblock extra_head %}
+
+{% block content %}
+    <h1>View Secret</h1>
+    Secret: {{ secret.text }}
+{% endblock content %}
