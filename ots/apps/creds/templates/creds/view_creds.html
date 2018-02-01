@@ -6,5 +6,12 @@
 
 {% block content %}
     <h1>View Secret</h1>
-    Secret: {{ secret.text }}
+
+    <div class="card text-white bg-secondary mb-3 text-center">
+      <div class="card-header">View Secret</div>
+      <div class="card-body">
+        <p class="card-text">{{ secret.text }}</p>
+      </div>
+    </div>
+
 {% endblock content %}

@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.urls import reverse_lazy
 from django.contrib.sites.models import Site
+from django_cryptography.fields import encrypt
 from . import SITE_SCHEME
 
 
@@ -11,7 +12,7 @@ class Secret(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    text = models.TextField(help_text="Secret message.")
+    text = encrypt(models.TextField(help_text="Secret message."))
     expire_date = models.DateTimeField(
         "Expiration Date",
         help_text=(
@@ -29,6 +30,9 @@ class Secret(models.Model):
             "The default is 1."),
         default=1)
     expired = models.BooleanField(default=False)
+    require_login = models.BooleanField(
+        help_text="If checked, the user must be logged in to view.",
+        default=False)
 
     def get_secret_url(self):
         domain = Site.objects.get_current().domain

@@ -2,6 +2,7 @@ from uuid import UUID
 from django.views.generic import DetailView, CreateView
 from django.http import Http404, HttpResponse
 from django.urls import reverse_lazy
+from django.utils import timezone
 from . import forms
 from . import qr_utils
 from .models import Secret
@@ -18,6 +19,8 @@ class ValidateUUIDMixin(object):
         obj = super().get_object(queryset=None)
         if obj.expired:
             raise Http404()
+        if obj.require_login and not self.request.user.is_authenticated():
+            raise Http404()
         return obj
 
 
@@ -27,9 +30,12 @@ class ViewCred(ValidateUUIDMixin, DetailView):
     context_object_name = "secret"
 
     def get_context_data(self, **kwargs):
+        now = timezone.now()
         obj = self.get_object()
         obj.expire_count += 1
         if obj.expire_count >= obj.expire_max_count:
+            obj.expire()
+        if obj.expire_date and obj.expire_date < now:
             obj.expire()
         obj.save()
         kwargs['page_refresh'] = PAGE_REFRESH
