@@ -7,6 +7,7 @@ class SecretAdmin(admin.ModelAdmin):
         'id', 'expired', 'expire_count',
         'expire_max_count', 'created', 'modified']
     readonly_fields = ['id', 'expired', 'expire_count']
+    list_filter = ['expired']
 
 
 admin.site.register(models.Secret, SecretAdmin)
