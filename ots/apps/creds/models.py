@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse_lazy
 from django.contrib.sites.models import Site
 from django_cryptography.fields import encrypt
-from . import SITE_SCHEME
+from . import SITE_SCHEME, PAGE_REFRESH
 
 
 class Secret(models.Model):
@@ -33,6 +33,13 @@ class Secret(models.Model):
     require_login = models.BooleanField(
         help_text="If checked, the user must be logged in to view.",
         default=False)
+    page_refresh = models.PositiveIntegerField(
+        help_text=(
+            "If an integer is provided, the page will refresh after "
+            "the given number of seconds. The default is {} seconds.".format(
+                PAGE_REFRESH)),
+        default=PAGE_REFRESH,
+    )
 
     def get_secret_url(self):
         domain = Site.objects.get_current().domain

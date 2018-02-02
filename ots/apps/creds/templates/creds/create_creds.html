@@ -2,24 +2,29 @@
 {% load field_tags %}
 {% block content %}
     <h1>Create Secret</h1>
-    <form action="." method="post">{% csrf_token %}
-    {{ form.non_field_errors }}
+    <div class="card">
+        <div class="card-header bg-primary text-white">Create Secret</div>
+        <div class="card-body">
+            <form action="." method="post">{% csrf_token %}
+            {{ form.non_field_errors }}
 
-    {% for hidden in form.hidden_fields %}
-    {{ hidden }}
-    {% endfor %}
+            {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
 
 
-    {% for field in form.visible_fields %}
-        <div class="form-group">
-            {{ field.errors }}
-            {{ field.label_tag }} {{ field|addcss:"form-control" }}
-            {% if field.help_text %}
-            <small class="form-text text-muted">{{ field.help_text|safe }}</small>
-            {% endif %}
+            {% for field in form.visible_fields %}
+                <div class="form-group">
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field|addcss:"form-control" }}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+             <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
-    {% endfor %}
-
-     <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
 {% endblock content %}

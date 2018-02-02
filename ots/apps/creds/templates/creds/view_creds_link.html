@@ -3,11 +3,30 @@
 {% block content %}
     <h1>View Secret</h1>
 
-    <div class="card text-white bg-primary mb-3 text-center">
-      <div class="card-header">View Secret</div>
+    <div class="card">
+      <div class="card-header bg-primary text-white">View Secret</div>
       <div class="card-body">
-        <h5 class="card-title"><input id="secret-link" class="form-control" value="{{ secret.get_secret_url }}" /></h5>
-        <p class="card-text"><img src="{% url 'view_creds_qr' secret.id %}" alt="qr code"/></p>
+        <h6 class="card-subtitle mb-2">
+
+            <ul class="list-group">
+                <li class="list-group-item active">This secret will expire after one of the following has occurred:</li>
+                <li class="list-group-item text-primary">
+                    It has been viewed {{ secret.expire_max_count }} times.
+                    Current view count is {{ secret.expire_count }} views.
+                </li>
+                {% if secret.expire_date %}
+                <li class="list-group-item text-primary">
+                    If {{ secret.expire_date }} has passed.
+                </li>
+                {% endif %}
+            </ul>
+
+        </h6>
+        <input id="secret-link" class="form-control" value="{{ secret.get_secret_url }}" />
+
+        <p class="card-text text-center">
+            <img class="img-fluid" src="{% url 'view_creds_qr' secret.id %}" alt="qr code"/>
+        </p>
       </div>
     </div>
 

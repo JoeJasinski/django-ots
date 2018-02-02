@@ -6,7 +6,6 @@ from django.utils import timezone
 from . import forms
 from . import qr_utils
 from .models import Secret
-from . import PAGE_REFRESH
 
 
 class ValidateUUIDMixin(object):
@@ -18,9 +17,9 @@ class ValidateUUIDMixin(object):
             raise Http404()
         obj = super().get_object(queryset=None)
         if obj.expired:
-            raise Http404()
+            raise Http404("The page has expired.")
         if obj.require_login and not self.request.user.is_authenticated():
-            raise Http404()
+            raise Http404("Login required.")
         return obj
 
 
@@ -38,7 +37,6 @@ class ViewCred(ValidateUUIDMixin, DetailView):
         if obj.expire_date and obj.expire_date < now:
             obj.expire()
         obj.save()
-        kwargs['page_refresh'] = PAGE_REFRESH
         return super().get_context_data(**kwargs)
 
 

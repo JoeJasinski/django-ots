@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block extra_head %}
-<META HTTP-EQUIV="refresh" CONTENT="{{ page_refresh }}">
+{% if secret.page_refresh %}
+<meta http-equiv="refresh" CONTENT="{{ secret.page_refresh }};URL='{% url "view_creds_link" secret.id %}'">
+{% endif %}
 {% endblock extra_head %}
 
 {% block content %}
